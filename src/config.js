@@ -1,5 +1,5 @@
 const config = {
-    COMPANYNAME: 'Starto',
+    COMPANYNAME: 'Startooo',
     footerData: '5 rue Gustave Simon 54000 Nancy - © 2025 Starto - ',
     apiUrl: 'https://leadsbackend.onrender.com/api/starto',
     apiUrlLogin: 'https://leadsbackend.onrender.com/api/auth/login',
