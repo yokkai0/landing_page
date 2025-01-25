@@ -5,7 +5,8 @@ const formData = [
         index: 1,
         step: 'Informations personnelles',
         questions: [
-            { mandatory: true, label: 'Nom et prénom', type: 'string', placeholder: 'Veuillez indiquer votre nom complet.' },
+            { mandatory: true, label: 'Nom', type: 'string', placeholder: 'Veuillez indiquer votre nom complet.' },
+            { mandatory: true, label: 'Prénom', type: 'string', placeholder: 'Veuillez indiquer votre prénom complet.' },
             { mandatory: true, label: 'Numéro de téléphone', type: 'number', placeholder: 'Numéro de téléphone pour une prise de contact rapide.' },
             { mandatory: true, label: 'Adresse mail', type: 'string', placeholder: 'Votre adresse e-mail pour que nous puissions vous contacter.' },
             { mandatory: true, label: 'Code postal et ville', type: 'string', placeholder: 'Votre lieu de résidence.' },
@@ -50,8 +51,7 @@ const formData = [
         index: 6,
         step: 'Consentement et prise de contact',
         questions: [
-            { mandatory: true, label: 'Préférence pour être contacté', type: 'qcm', multiple: false, answers: ['Téléphone', 'E-mail', 'SMS'], placeholder: 'Quel est votre mode de contact préféré ?' },
-            { mandatory: false, label: 'Disponibilités pour un appel', type: 'string', placeholder: "Quels sont vos créneaux horaires préférés pour un appel ?" },
+            { mandatory: true, label: 'Disponibilités pour un appel', type: 'string', placeholder: "Quels sont vos créneaux horaires préférés pour un appel ?" },
             { mandatory: true, label: 'Consentement RGPD', type: 'checkbox', placeholder: "J'accepte que mes données soient utilisées pour être contacté dans le cadre de ma demande de rachat de crédits." },
         ]
     },

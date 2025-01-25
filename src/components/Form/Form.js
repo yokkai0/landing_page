@@ -1,40 +1,88 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Box, Button, Typography, TextField, Radio, FormControlLabel, Checkbox, Slider, Grid } from '@mui/material';
+import { Container, Box, Button, Typography, TextField, Radio, FormControlLabel, Checkbox, Slider, Grid, AppBar, Toolbar, CircularProgress } from '@mui/material';
 import formData from '../../formData'; // Assurez-vous que le fichier formData est dans le même dossier
-import Header from '../utils/Header'; // Assurez-vous que le fichier Header existe
-import Footer from '../utils/Footer'; // Assurez-vous que le fichier Footer existe
 import config from '../../config';
-import HeaderMobile from '../utils/HeaderMobile';
 
 const StepperForm = ({ navigate }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [formValues, setFormValues] = useState({});
+    const [formDone, setFormDone] = useState(false);
+    const [loading, setLoading] = useState(false);
     
     useEffect(() => {
       window.scrollTo(0, 0)
     }, [])
 
-    const sendData = (formValues) => {
+    const postDataWithAuth = async (token, bodyObject) => {
+        try {
+          const response = await fetch(config.apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json', // Définit le type de contenu
+              'Authorization': `Bearer ${token}` // Ajoute le token d'autorisation
+            },
+            body: JSON.stringify(bodyObject) // Convertit l'objet en chaîne JSON
+          });
+      
+          if (!response.ok) {
+            // Gérer les erreurs HTTP (4xx, 5xx)
+            const errorMessage = `Error: ${response.status} - ${response.statusText}`;
+            throw new Error(errorMessage);
+          }
+      
+          setFormDone(true);
+          setLoading(false);
+        } catch (error) {
+          console.error('Fetch failed:', error);
+          setLoading(false);
+          throw error; // Relancer l'erreur pour un traitement supplémentaire
+        }
+    };
+      
+    const sendData = async (formValues) => {
+      setLoading(true);
       const resData = {
         name: formValues['0']['0'],
-        phone: formValues['0']['1'],
-        email: formValues['0']['2'],
-        location: formValues['0']['3'],
+        firstname: formValues['0']['1'],
+        phone: parseInt(formValues['0']['2']),
+        email: formValues['0']['3'],
+        location: formValues['0']['4'],
         proSituation: formValues['1']['0'],
-        salary: formValues['1']['1'],
-        totalDebts: formValues['1']['2'],
-        creditsNumber: formValues['1']['3'],
+        salary: parseInt(formValues['1']['1']),
+        totalDebts: parseInt(formValues['1']['2']),
+        creditsNumber: parseInt(formValues['1']['3']),
         motivations: formValues['2']['0'].join(', '),
-        complementAsked: formValues['2']['1'],
+        complementAsked: parseInt(formValues['2']['1']),
         persoSituation: formValues['3']['0'],
-        dependents: formValues['3']['1'],
+        dependents: parseInt(formValues['3']['1']),
         creditsType: formValues['4']['0'].join(', '),
         homeSituation: formValues['4']['1'],
-        actualMensualities: formValues['4']['2'],
-        contactPreference: formValues['5']['0'],
-        availabilities: formValues['5']['1'],
+        actualMensualities: parseInt(formValues['4']['2']),
+        availabilities: formValues['5']['0'],
       }
-      console.log(resData)
+      try {
+        const response = await fetch(config.apiUrlLogin, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json', // Définit le type de contenu
+          },
+          body: JSON.stringify({email: 'admin@greengroup.fr', password: 'GreenGroup2025'}) // Convertit l'objet en chaîne JSON
+        });
+    
+        if (!response.ok) {
+          // Gérer les erreurs HTTP (4xx, 5xx)
+          const errorMessage = `Error: ${response.status} - ${response.statusText}`;
+          throw new Error(errorMessage);
+        }
+    
+        // Retourner la réponse JSON si tout est correct
+        const data = await response.json();
+        postDataWithAuth(data.token, resData);
+      } catch (error) {
+        console.error('Fetch failed:', error);
+        setLoading(false);
+        throw error; // Relancer l'erreur pour un traitement supplémentaire
+      }
     };
 
     const handleInputChange = (stepIndex, questionIndex, value) => {
@@ -52,7 +100,7 @@ const StepperForm = ({ navigate }) => {
         return currentStepData.questions.every((question, index) => {
             if (question.mandatory) {
                 const value = formValues[currentStep]?.[index];
-                return value !== undefined && value !== '';
+                return value !== undefined && value !== '' && value !== false;
             }
             return true;
         });
@@ -176,14 +224,29 @@ const StepperForm = ({ navigate }) => {
         }
     };
 
+    const handleClick = () => {
+      navigate('landingPage');
+    };
+
+    const { primary, main, dark } = config.colors;
+
     return (
-        <div style={{ width: '100%', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center', backgroundColor: config.colors.primary }}>
-            {
-              window.innerWidth < 700 ?
-                <HeaderMobile navigate={navigate} option={false}/>
-              :
-                <Header navigate={navigate} option={true}/>
-            }
+        <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f0f8ff' }}>
+          {/* Header */}
+            <AppBar position="static" style={{ backgroundColor: dark }}>
+                <Toolbar style={{ justifyContent: 'space-between' }}>
+                <Typography variant="h6" style={{ fontWeight: 'bold', color: primary }}>
+                    {config.COMPANYNAME}
+                </Typography>
+                <Button
+                    variant="contained"
+                    style={{ backgroundColor: main, color: primary }}
+                    onClick={handleClick}
+                >
+                    Accueil
+                </Button>
+                </Toolbar>
+            </AppBar>
             <Container
                 maxWidth="md"
                 sx={{
@@ -191,63 +254,110 @@ const StepperForm = ({ navigate }) => {
                     flexDirection: 'column',
                     justifyContent: 'center',
                     alignItems: 'center',
+                    minHeight: '90vh',
                     flex: 1,
                     padding: 2,
                 }}
             >
-                <Box
-                    sx={{
-                        width: '90%',
-                        maxHeight: '80vh',
-                        overflowY: 'auto',
-                        backgroundColor: 'white',
-                        padding: 3,
-                        borderRadius: 2,
-                        boxShadow: 3,
-                    }}
-                >
-                    <Typography variant="h5" gutterBottom>
-                        {formData[currentStep].step}
-                    </Typography>
-                    <form>
-                        {formData[currentStep].questions.map((question, index) => (
-                            <Box key={index} sx={{ marginBottom: 2 }}>
-                                <Typography variant="subtitle1" gutterBottom>
-                                    {question.label}
-                                </Typography>
-                                {renderQuestion(question, currentStep, index)}
-                            </Box>
-                        ))}
-                    </form>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
-                        <Button
-                            variant="outlined"
-                            disabled={currentStep === 0}
-                            onClick={previousStep}
+                {
+                    formDone ?
+                        <Box
+                            sx={{
+                                width: '90%',
+                                maxHeight: '80vh',
+                                overflowY: 'auto',
+                                backgroundColor: 'white',
+                                padding: 3,
+                                borderRadius: 2,
+                                boxShadow: 3,
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                alignItems: 'flex-end',
+                                flexDirection: 'column'
+                            }}
                         >
-                            Précédent
-                        </Button>
-                        {currentStep < formData.length - 1 ? (
-                            <Button
-                                variant="contained"
-                                disabled={!isStepComplete()}
-                                onClick={nextStep}
-                            >
-                                Suivant
+                            <Typography variant='h4' style={{ color: config.colors.main }}>
+                                Merci d'avoir rempli notre formulaire, nous prendrons contact avec vous dans les plus brefs délais.
+                            </Typography>
+                            <Button variant="contained" style={{ marginTop: 15, backgroundColor: config.colors.main, color: '#fff' }} onClick={handleClick}>
+                                Retour à l'accueil
                             </Button>
-                        ) : (
-                            <Button
-                                variant="contained"
-                                disabled={!isStepComplete()}
-                                onClick={() => sendData(formValues)}
-                            >
-                                Soumettre
-                            </Button>
-                        )}
-                    </Box>
-                </Box>
+                        </Box>
+                    : 
+                        <Box
+                            sx={{
+                                width: '90%',
+                                maxHeight: '80vh',
+                                overflowY: 'auto',
+                                backgroundColor: 'white',
+                                padding: 3,
+                                borderRadius: 2,
+                                boxShadow: 3,
+                            }}
+                        >
+                            <Typography variant="h5" gutterBottom>
+                                {formData[currentStep].step}
+                            </Typography>
+                            <form>
+                                {formData[currentStep].questions.map((question, index) => (
+                                    <Box key={index} sx={{ marginBottom: 2 }}>
+                                        <Typography variant="subtitle1" gutterBottom>
+                                            {question.label}
+                                        </Typography>
+                                        {renderQuestion(question, currentStep, index)}
+                                    </Box>
+                                ))}
+                            </form>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
+                                <Button
+                                    variant="outlined"
+                                    disabled={currentStep === 0}
+                                    onClick={previousStep}
+                                >
+                                    Précédent
+                                </Button>
+                                {currentStep < formData.length - 1 ? (
+                                    <Button
+                                        variant="contained"
+                                        disabled={!isStepComplete()}
+                                        onClick={nextStep}
+                                    >
+                                        Suivant
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        variant="contained"
+                                        disabled={!isStepComplete()}
+                                        onClick={() => sendData(formValues)}
+                                    >
+                                        {
+                                            loading ?
+                                            <CircularProgress />
+                                            : "Soumettre"
+                                        }
+                                    </Button>
+                                )}
+                            </Box>
+                        </Box>
+                }
             </Container>
-            <Footer navigate={navigate} />
+            {/* Footer */}
+            <footer
+            style={{
+                marginTop: '4rem',
+                padding: '1rem 0',
+                backgroundColor: '#003366',
+                color: '#fff',
+                textAlign: 'center',
+            }}
+            >
+            <Typography variant="body2">
+                5 rue Gustave Simon 54000 Nancy - © 2025 Convictions Vertes -{' '}
+                <Button color="inherit" size="small" onClick={handleClick}>
+                Nous contacter
+                </Button>
+            </Typography>
+            </footer>
         </div>
     );
 };
