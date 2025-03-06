@@ -37,7 +37,8 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       {
-          <div style={{ backgroundColor: config.colors.primary, top: 0, position: 'absolute', width: '100%' }}>
+          <div style={{ height: '100vh', top: 0, width: '100%' }}>
+            <div style={{ backgroundImage: "url('/background.png')", backgroundSize: "cover", backgroundPosition: "center", height: '100vh', top: 0, position: 'fixed', width: '100%' }} />
             {
               getComponent()
             }

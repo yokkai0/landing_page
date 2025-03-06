@@ -330,7 +330,7 @@ const StepperForm = ({ navigate }) => {
                 }
             </Container>
             {/* Footer */}
-            <Footer />
+            <Footer navigate={navigate} />
         </div>
     );
 };
