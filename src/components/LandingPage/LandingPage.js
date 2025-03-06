@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import {
-  AppBar,
-  Toolbar,
   Typography,
   Button,
   Container,
@@ -12,6 +10,7 @@ import {
 } from '@mui/material';
 import config from '../../config.js';
 import Footer from '../utils/Footer.js';
+import Header from '../utils/Header.js';
 
 function LandingPage({ navigate }) {
   const [isMobile, setIsMobile] = useState(false);
@@ -37,20 +36,7 @@ function LandingPage({ navigate }) {
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: ultralight }}>
       {/* Header */}
-      <AppBar position="static" style={{ backgroundColor: dark }}>
-        <Toolbar style={{ justifyContent: 'space-between' }}>
-          <Typography variant="h6" style={{ fontWeight: 'bold', color: primary }}>
-            {config.COMPANYNAME}
-          </Typography>
-          <Button
-            variant="contained"
-            style={{ backgroundColor: main, color: primary }}
-            onClick={handleClick}
-          >
-            Contactez-nous !
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <Header link={'Form'} navigate={navigate} />
 
       {/* Main Content */}
       <Container style={{ marginTop: '2rem', position: 'relative', maxWidth: '90%' }}>

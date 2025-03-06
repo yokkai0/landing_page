@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Box, Button, Typography, TextField, Radio, FormControlLabel, Checkbox, Slider, Grid2, AppBar, Toolbar, CircularProgress } from '@mui/material';
+import { Container, Box, Button, Typography, TextField, Radio, FormControlLabel, Checkbox, Slider, Grid2, CircularProgress } from '@mui/material';
 import formData from '../../formData'; // Assurez-vous que le fichier formData est dans le même dossier
 import config from '../../config';
 import Footer from '../utils/Footer';
+import Header from '../utils/Header';
 
 const StepperForm = ({ navigate }) => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -229,25 +230,11 @@ const StepperForm = ({ navigate }) => {
       navigate('landingPage');
     };
 
-    const { primary, main, dark } = config.colors;
-
     return (
         <div style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f0f8ff' }}>
           {/* Header */}
-            <AppBar position="static" style={{ backgroundColor: dark }}>
-                <Toolbar style={{ justifyContent: 'space-between' }}>
-                <Typography variant="h6" style={{ fontWeight: 'bold', color: primary }}>
-                    {config.COMPANYNAME}
-                </Typography>
-                <Button
-                    variant="contained"
-                    style={{ backgroundColor: main, color: primary }}
-                    onClick={handleClick}
-                >
-                    Accueil
-                </Button>
-                </Toolbar>
-            </AppBar>
+            <Header link={'landingPage'} navigate={navigate} />
+
             <Container
                 maxWidth="md"
                 sx={{
