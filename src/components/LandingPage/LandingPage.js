@@ -11,6 +11,7 @@ import {
   CardContent,
 } from '@mui/material';
 import config from '../../config.js';
+import Footer from '../utils/Footer.js';
 
 function LandingPage({ navigate }) {
   const [isMobile, setIsMobile] = useState(false);
@@ -52,14 +53,14 @@ function LandingPage({ navigate }) {
       </AppBar>
 
       {/* Main Content */}
-      <Container style={{ marginTop: '2rem', position: 'relative' }}>
+      <Container style={{ marginTop: '2rem', position: 'relative', maxWidth: '90%' }}>
         {/* Introduction */}
         <Grid container spacing={4} alignItems="flex-end">
           <Grid item xs={12} md={6}>
             <Typography variant="h2" style={{ fontWeight: 'bold', color: dark, marginBottom: '1rem' }}>
               Des solutions personnalisées
             </Typography>
-            <Typography variant="h4" style={{ marginBottom: '1.5rem', color: secondary }}>
+            <Typography variant="h4" style={{ marginBottom: isMobile ? 0 : '1.5rem', color: secondary }}>
               pour alléger vos mensualités
             </Typography>
             {isMobile ? (
@@ -77,10 +78,10 @@ function LandingPage({ navigate }) {
             <Card elevation={2} style={{ padding: '1rem', backgroundColor: primary }}>
               <CardContent>
                 <Typography variant="body1" style={{ marginBottom: '1rem', color: dark }}>
-                  Le rachat de crédits est bien plus qu'une simple démarche financière : c'est une opportunité pour
+                  Le rachat de crédits est bien plus qu'une simple <b>démarche financière</b> : c'est une <b>opportunité</b> pour
                   reprendre le contrôle de vos finances et retrouver une sérénité au quotidien. Que vous souhaitiez
                   faire face à des imprévus, financer de nouveaux projets, ou tout simplement vivre plus confortablement,
-                  le rachat de crédits est la solution idéale. Faites appel à nos services pour un accompagnement
+                  le rachat de crédits est la <b>solution idéale</b>. Faites appel à nos services pour un accompagnement
                   personnalisé et des résultats concrets.
                 </Typography>
                 <Button
@@ -92,7 +93,7 @@ function LandingPage({ navigate }) {
                   }}
                   onClick={handleClick}
                 >
-                  Nous contacter
+                  <b>Nous contacter</b>
                 </Button>
               </CardContent>
             </Card>
@@ -139,7 +140,7 @@ function LandingPage({ navigate }) {
                 style={{
                   textAlign: 'center',
                   padding: '1rem',
-                  backgroundColor: ultralight,
+                  backgroundColor: light,
                   border: `1px solid ${light}`,
                 }}
               >
@@ -182,28 +183,13 @@ function LandingPage({ navigate }) {
             style={{ backgroundColor: main, color: primary, padding: '0.8rem 2rem' }}
             onClick={handleClick}
           >
-            Accéder au formulaire de contact
+            <b>Accéder au formulaire de contact</b>
           </Button>
         </div>
       </Container>
 
       {/* Footer */}
-      <footer
-        style={{
-          marginTop: '4rem',
-          padding: '1rem 0',
-          backgroundColor: dark,
-          color: primary,
-          textAlign: 'center',
-        }}
-      >
-        <Typography variant="body2">
-          5 rue Gustave Simon 54000 Nancy - © 2025 Starto -{' '}
-          <Button color="inherit" size="small" onClick={handleClick}>
-            Nous contacter
-          </Button>
-        </Typography>
-      </footer>
+      <Footer />
     </div>
   );
 }

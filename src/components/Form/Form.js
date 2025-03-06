@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Box, Button, Typography, TextField, Radio, FormControlLabel, Checkbox, Slider, Grid, AppBar, Toolbar, CircularProgress } from '@mui/material';
+import { Container, Box, Button, Typography, TextField, Radio, FormControlLabel, Checkbox, Slider, Grid2, AppBar, Toolbar, CircularProgress } from '@mui/material';
 import formData from '../../formData'; // Assurez-vous que le fichier formData est dans le même dossier
 import config from '../../config';
+import Footer from '../utils/Footer';
 
 const StepperForm = ({ navigate }) => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -142,9 +143,9 @@ const StepperForm = ({ navigate }) => {
                 );
             case 'qcm':
                 return (
-                    <Grid container spacing={2}>
+                    <Grid2 container spacing={2}>
                         {question.answers.map((answer, idx) => (
-                            <Grid
+                            <Grid2
                                 item
                                 xs={12}
                                 sm={6}
@@ -188,9 +189,9 @@ const StepperForm = ({ navigate }) => {
                                     }
                                     label={answer}
                                 />
-                            </Grid>
+                            </Grid2>
                         ))}
-                    </Grid>
+                    </Grid2>
                 );
             case 'slider':
                 return (
@@ -342,22 +343,7 @@ const StepperForm = ({ navigate }) => {
                 }
             </Container>
             {/* Footer */}
-            <footer
-            style={{
-                marginTop: '4rem',
-                padding: '1rem 0',
-                backgroundColor: '#003366',
-                color: '#fff',
-                textAlign: 'center',
-            }}
-            >
-            <Typography variant="body2">
-                5 rue Gustave Simon 54000 Nancy - © 2025 Convictions Vertes -{' '}
-                <Button color="inherit" size="small" onClick={handleClick}>
-                Nous contacter
-                </Button>
-            </Typography>
-            </footer>
+            <Footer />
         </div>
     );
 };

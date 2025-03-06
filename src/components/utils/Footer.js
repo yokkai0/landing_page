@@ -1,13 +1,31 @@
-import { Link, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import '../../App.css';
 import config from '../../config';
 
 function Footer({ navigate }) {
+  const { primary, dark } = config.colors;
+
+  const handleClick = () => {
+    navigate('Form');
+  };
+
   return (
-    <div style={{ backgroundColor: config.colors.primary, bottom: 0, paddingBottom: 10, width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <Typography variant="span" style={{ textAlign: 'center', fontFamily: 'Newsreader', color: config.colors.secondary }}>{config.footerData}</Typography>
-      <Link onClick={() => navigate()} style={{ marginLeft: 5, textAlign: 'center' }}>Nous contacter</Link>
-    </div>
+    <footer
+        style={{
+          marginTop: '4rem',
+          padding: '1rem 0',
+          backgroundColor: dark,
+          color: primary,
+          textAlign: 'center',
+        }}
+      >
+        <Typography variant="body2">
+          5 rue Gustave Simon 54000 Nancy - © 2025 Starto -{' '}
+          <Button color="inherit" size="small" onClick={handleClick}>
+            Nous contacter
+          </Button>
+        </Typography>
+      </footer>
   );
 }
 
