@@ -8,7 +8,6 @@ import {
   ThemeProvider,
 } from '@mui/material/styles';
 import Form from './components/Form/Form';
-import Favicon from "react-favicon";
 
 const theme = createTheme({
   palette: {
@@ -23,9 +22,6 @@ const theme = createTheme({
 
 function App() {
   const [currentPage, setCurrentPage] = useState('landingPage');
-  const [faviconUrl, setFaviconUrl] = useState(
-    "https://media.geeksforgeeks.org/wp-content/cdn-uploads/gfg_favicon.png"
-  );
 
   const navigate = (page) => {
     setCurrentPage(page);
