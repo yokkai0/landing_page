@@ -286,7 +286,7 @@ const StepperForm = ({ navigate }) => {
                             <Typography variant="h5" gutterBottom>
                                 {formData[currentStep].step}
                             </Typography>
-                            <form>
+                            <form netlify >
                                 {formData[currentStep].questions.map((question, index) => (
                                     <Box key={index} sx={{ marginBottom: 2 }}>
                                         <Typography variant="subtitle1" gutterBottom>
@@ -315,12 +315,13 @@ const StepperForm = ({ navigate }) => {
                                 ) : (
                                     <Button
                                         variant="contained"
+                                        type="submit"
                                         disabled={!isStepComplete()}
                                         onClick={() => sendData(formValues)}
                                     >
                                         {
                                             loading ?
-                                            <CircularProgress />
+                                                <CircularProgress />
                                             : "Soumettre"
                                         }
                                     </Button>

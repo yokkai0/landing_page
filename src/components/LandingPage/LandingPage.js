@@ -2,11 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   Typography,
-  Button,
   Container,
-  Grid,
-  Card,
-  CardContent,
 } from '@mui/material';
 import config from '../../config.js';
 import Footer from '../utils/Footer.js';
@@ -27,7 +23,7 @@ function LandingPage({ navigate }) {
     window.scrollTo(0, 0);
   }, []);
 
-  const { primary, secondary, main, light, dark, ultralight } = config.colors;
+  const { secondary } = config.colors;
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif' }}>
